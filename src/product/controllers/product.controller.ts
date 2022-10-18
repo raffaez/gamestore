@@ -1,4 +1,4 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import {
   Body,
   Delete,
@@ -7,7 +7,6 @@ import {
   Post,
   Put,
 } from '@nestjs/common/decorators';
-import { ParseIntPipe } from '@nestjs/common/pipes';
 import { DeleteResult } from 'typeorm';
 import { Product } from '../entities/product.entity';
 import { ProductService } from '../services/product.service';
