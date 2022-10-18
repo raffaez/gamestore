@@ -20,8 +20,7 @@ export class Product {
   price: number;
 
   @ManyToOne(() => Category, (category) => category.product, {
-    onDelete: "CASCADE"
+    onDelete: 'CASCADE',
   })
   category: Category;
-  
 }
