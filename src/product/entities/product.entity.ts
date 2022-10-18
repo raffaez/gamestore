@@ -1,5 +1,6 @@
 import { IsNotEmpty } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'tb_products' })
 export class Product {
@@ -17,4 +18,10 @@ export class Product {
   @IsNotEmpty()
   @Column('decimal', { precision: 5, scale: 2, nullable: false })
   price: number;
+
+  @ManyToOne(() => Category, (category) => category.product, {
+    onDelete: "CASCADE"
+  })
+  category: Category;
+  
 }
