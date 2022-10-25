@@ -20,7 +20,7 @@ export class ProductService {
   async findAll(): Promise<Product[]> {
     return await this.productRepository.find({
       relations: {
-        category: true,
+        categories: true,
       },
     });
   }
@@ -40,7 +40,7 @@ export class ProductService {
         id,
       },
       relations: {
-        category: true,
+        categories: true,
       },
     });
 
@@ -66,7 +66,7 @@ export class ProductService {
         title: ILike(`%${title}%`),
       },
       relations: {
-        category: true,
+        categories: true,
       },
     });
   }
