@@ -18,11 +18,7 @@ export class CategoryService {
    * findAll() // All categories registered in the database will be shown
    */
   async findAll(): Promise<Category[]> {
-    return await this.categoryRepository.find({
-      relations: {
-        product: true,
-      },
-    });
+    return await this.categoryRepository.find();
   }
 
   /**
@@ -38,9 +34,6 @@ export class CategoryService {
     const category = await this.categoryRepository.findOne({
       where: {
         id,
-      },
-      relations: {
-        product: true,
       },
     });
 
@@ -64,9 +57,6 @@ export class CategoryService {
     return await this.categoryRepository.find({
       where: {
         name: ILike(`%${name}%`),
-      },
-      relations: {
-        product: true,
       },
     });
   }
