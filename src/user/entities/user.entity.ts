@@ -23,15 +23,6 @@ export class User{
   @Column({ length: 5000, default: 'default.jpg' })
   photo: string;
 
-  @ManyToMany(() => Product)
-  @JoinTable()
-  products: Product[]
-
-  @BeforeInsert()
-  hashPassword(){
-    this.password = hashSync(this.password, 10);
-  }
-
   @CreateDateColumn()
   dateCreated:Date;
 
@@ -41,4 +32,12 @@ export class User{
   @DeleteDateColumn()
   dateDeleted: Date;
 
+  @ManyToMany(() => Product)
+  @JoinTable()
+  products: Product[];
+
+  @BeforeInsert()
+  hashPassword(){
+    this.password = hashSync(this.password, 10);
+  }
 }
