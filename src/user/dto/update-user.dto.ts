@@ -1,6 +1,6 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
-export class UpdateUserDto{
+export class UpdateUserDto {
   @IsNotEmpty()
   firstName: string;
 

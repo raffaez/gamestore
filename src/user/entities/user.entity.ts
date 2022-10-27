@@ -1,30 +1,39 @@
 import { hashSync } from 'bcrypt';
 import { Product } from '../../product/entities/product.entity';
-import { BeforeInsert, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity({name: "tb_users"})
-export class User{
-
+@Entity({ name: 'tb_users' })
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ name: 'first_name', nullable: false})
+  @Column({ name: 'first_name', nullable: false })
   firstName: string;
 
-  @Column({ name: 'last_name', nullable: false})
+  @Column({ name: 'last_name', nullable: false })
   lastName: string;
 
-  @Column({ nullable: false})
+  @Column({ nullable: false })
   email: string;
 
-  @Column({ nullable: false})
+  @Column({ nullable: false })
   password: string;
 
   @Column({ length: 5000, default: 'default.jpg' })
   photo: string;
 
   @CreateDateColumn()
-  dateCreated:Date;
+  dateCreated: Date;
 
   @UpdateDateColumn()
   dateUpdated: Date;
@@ -37,7 +46,7 @@ export class User{
   products: Product[];
 
   @BeforeInsert()
-  hashPassword(){
+  hashPassword() {
     this.password = hashSync(this.password, 10);
   }
 }

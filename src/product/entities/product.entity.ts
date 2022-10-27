@@ -1,6 +1,12 @@
 import { IsNotEmpty } from 'class-validator';
 import { Category } from 'src/category/entities/category.entity';
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'tb_products' })
 export class Product {
@@ -21,6 +27,5 @@ export class Product {
 
   @ManyToMany(() => Category, (category) => category.products)
   @JoinTable()
-  categories: Category[]
-
+  categories: Category[];
 }

@@ -11,4 +11,4 @@ import { UserService } from './services/user.service';
   providers: [UserService],
   exports: [TypeOrmModule, UserService],
 })
-export class UserModule{}
+export class UserModule {}

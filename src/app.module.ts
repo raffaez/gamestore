@@ -23,7 +23,7 @@ import { UserModule } from './user/user.module';
     ProductModule,
     CategoryModule,
     AuthModule,
-    UserModule
+    UserModule,
   ],
   controllers: [],
   providers: [],
