@@ -1,4 +1,5 @@
-import { NotFoundException } from '@nestjs/common';
+import { MessagesHelper } from '../../helpers/messages.helper';
+import { NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { Injectable } from '@nestjs/common/decorators';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, FindOptionsWhere, Repository, UpdateResult } from 'typeorm';
@@ -15,36 +16,63 @@ export class UserService{
   ){}
 
   async findAll(): Promise<User[]>{
-    return await this.userRepository.find({
-      select: ['id', 'firstName', 'lastName', 'email', 'photo']
+    const userSearch: User[] = await this.userRepository.find({
+      select: ['id', 'firstName', 'lastName', 'email', 'photo'],
+      relations: {
+        products: true
+      }
     });
+
+    if(!userSearch) throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
+
+    return userSearch;
   }
 
-  async findBy(where: FindOptionsWhere<User> | FindOptionsWhere<User>[]): Promise<User[]>{
-    return await this.userRepository.findBy(where);
+  async findByEmail(email: string): Promise<User>{
+    const userSearch: User = await this.userRepository.findOne({
+      where: { email },
+      relations: {
+        products: true
+      }
+    });
+
+    if(!userSearch) throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
+
+    return userSearch;
   }
 
-  async findOneOrFail(options: FindOneOptions<User>): Promise<User>{
-    try {
-      return await this.userRepository.findOneOrFail(options);
-    } catch (err) {
-      throw new NotFoundException(err.message);
-    }
+  async findById(id: string): Promise<User>{
+    const userSearch: User = await this.userRepository.findOne({
+      where: { id },
+      relations: {
+        products: true
+      }
+    });
+    
+    if(!userSearch) throw new NotFoundException(MessagesHelper.USER_NOT_FOUND);
+
+    return userSearch;
   }
 
   async create(data: CreateUserDto): Promise<User>{
-    const user = this.userRepository.create(data);
-    return await this.userRepository.save(user);
+    try{
+      await this.findByEmail(data.email);
+    } catch (er) {
+      const user: User = this.userRepository.create(data);
+      return await this.userRepository.save(user);
+    }
+
+    throw new HttpException(MessagesHelper.EXISTING_USER, HttpStatus.BAD_REQUEST);
   }
 
   async update(id: string, data: UpdateUserDto): Promise<User>{
-    const user = await this.findOneOrFail({ where: { id }});
+    const user: User = await this.findById(id);
     this.userRepository.merge(user, data);
     return await this.userRepository.save(user);
   }
 
   async delete(id: string): Promise<UpdateResult>{
-    await this.findOneOrFail({ where: { id } });
+    await this.findById(id);
     return this.userRepository.softDelete({ id });
   }
 }
