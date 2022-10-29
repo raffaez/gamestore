@@ -4,16 +4,16 @@ import { RegExHelper } from 'src/helpers/regex.helper';
 
 export class CreateUserDto {
   @IsNotEmpty()
-  firstName: string;
+  public firstName: string;
 
   @IsNotEmpty()
-  lastName: string;
+  public lastName: string;
 
   @IsNotEmpty()
   @IsEmail()
-  email: string;
+  public email: string;
 
   @IsNotEmpty()
   @Matches(RegExHelper.password, { message: MessagesHelper.PASSWORD_VALID })
-  password: string;
+  public password: string;
 }
