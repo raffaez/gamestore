@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compareSync } from 'bcrypt';
 import { MessagesHelper } from '../../helpers/messages.helper';
-import { UserLogin } from '../entities/userLogin.entity';
+import { UserLoginDto } from '../dto/user-login.dto';
 import { UserService } from './../../user/services/user.service';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(userLogin: UserLogin) {
+  async login(userLogin: UserLoginDto) {
     const payload = { sub: 'gamestore', username: userLogin.user };
 
     return {

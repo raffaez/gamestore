@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { UserLogin } from '../entities/userLogin.entity';
+import { UserLoginDto } from '../dto/user-login.dto';
 import { AuthService } from '../services/auth.service';
 
 @Controller('/auth')
@@ -17,7 +17,7 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @HttpCode(HttpStatus.OK)
   @Post('/login')
-  async login(@Body() user: UserLogin): Promise<any> {
+  async login(@Body() user: UserLoginDto): Promise<any> {
     return this.authService.login(user);
   }
 }
