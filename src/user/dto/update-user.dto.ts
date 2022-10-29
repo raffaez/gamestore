@@ -6,4 +6,6 @@ export class UpdateUserDto {
 
   @IsNotEmpty()
   public lastName: string;
+
+  public photo: string;
 }
