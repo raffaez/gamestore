@@ -6,7 +6,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 describe('User and Auth tests (e2e)', () => {
-
   let token: any;
   let userId: any;
   let app: INestApplication;
@@ -25,8 +24,8 @@ describe('User and Auth tests (e2e)', () => {
           autoLoadEntities: true,
           synchronize: true,
           logging: false,
-          dropSchema: true
-        } as TypeOrmModuleOptions)
+          dropSchema: true,
+        } as TypeOrmModuleOptions),
       ],
     }).compile();
 
@@ -45,9 +44,9 @@ describe('User and Auth tests (e2e)', () => {
         firstName: 'Root',
         lastName: 'Root',
         email: 'root@root.com',
-        password: 'Root@1234'
+        password: 'Root@1234',
       });
-      expect(201);
+    expect(201);
 
     userId = response.body.id;
   });
@@ -57,31 +56,29 @@ describe('User and Auth tests (e2e)', () => {
       .post('/auth/login')
       .send({
         user: 'root@root.com',
-        password: 'Root@1234'
-      })
-      expect(200)
+        password: 'Root@1234',
+      });
+    expect(200);
 
-      token = response.body.token;
+    token = response.body.token;
   });
 
   it(`03 - Doesn't duplicate user`, async () => {
-    return request(app.getHttpServer())
-      .post('/users/register')
-      .send({
-        firstName: 'Root',
-        lastName: 'Root',
-        email: 'root@root.com',
-        password: 'Root@1234'
-      })
-      expect(400)
+    return request(app.getHttpServer()).post('/users/register').send({
+      firstName: 'Root',
+      lastName: 'Root',
+      email: 'root@root.com',
+      password: 'Root@1234',
+    });
+    expect(400);
   });
 
   it('04 - Lists all users', async () => {
     request(app.getHttpServer())
       .get('users/all')
       .set('Authorization', `${token}`)
-      .send({})
-      expect(200)
+      .send({});
+    expect(200);
   });
 
   it('05 - Updates user', async () => {
@@ -94,12 +91,11 @@ describe('User and Auth tests (e2e)', () => {
         lastName: 'Root',
         email: 'root@root.com',
         password: 'Root@1234',
-        photo: 'https://i.imgur.com/MxHmulq.jpeg'
+        photo: 'https://i.imgur.com/MxHmulq.jpeg',
       })
-      .then(response => {
+      .then((response) => {
         expect('Updated root').toEqual(response.body.firsName);
-      })
-      expect(200)
+      });
+    expect(200);
   });
-
 });
